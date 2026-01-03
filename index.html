@@ -1,401 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mana_Cheedikada Village</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: "Poppins", sans-serif;
-            background-color: #f5f3ea;
-            color: #4a4a4a;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mana_Cheedikada Village</title>
+  <style>
+    /* 1. SETUP COLOR VARIABLES */
+    :root {
+      --bg-color: #f5f3ea;
+      --nav-bg: #faf6ef;
+      --text-color: #4a4a4a;
+      --card-bg: #fffaf3;
+      --nav-link: #333;
+      --accent-green: #6b8e4e;
+      --shadow: rgba(0,0,0,0.12);
+    }
 
-        header {
-            background: url("cdk\ 6.jpg") center/cover no-repeat;
-            height: 80vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            background-blend-mode: overlay;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
+    /* 2. DARK MODE OVERRIDES */
+    body.dark-mode {
+      --bg-color: #121212;
+      --nav-bg: #1e1e1e;
+      --text-color: #e0e0e0;
+      --card-bg: #1e1e1e;
+      --nav-link: #ffffff;
+      --accent-green: #81b356;
+      --shadow: rgba(0,0,0,0.5);
+    }
 
-        header h1 {
-            font-size: 3.5rem;
-            letter-spacing: 2px;
-            margin: 0;
-        }
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: var(--bg-color); /* Updated */
+      color: var(--text-color); /* Updated */
+      scroll-behavior: smooth;
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    }
 
-        nav {
-            position: sticky;
-            top: 0;
-            background: #faf6ef;
-            padding: 15px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            z-index: 100;
-        }
+    nav {
+      position: sticky;
+      top: 0;
+      background: var(--nav-bg); /* Updated */
+      padding: 10px 20px;
+      box-shadow: 0 4px 12px var(--shadow);
+      z-index: 100;
+      display: flex; /* Flex to push toggle to right */
+      justify-content: center; /* Center the list */
+      align-items: center;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 0;
-            padding: 0;
-        }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+      flex-grow: 1; /* Helps with centering */
+      justify-content: center;
+      margin-left: 60px; /* Offset to keep links centered despite toggle */
+    }
 
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            transition: 0.3s;
-        }
+    nav a {
+      text-decoration: none;
+      color: var(--nav-link); /* Updated */
+      font-weight: 600;
+      transition: 0.3s;
+    }
 
-        nav a:hover {
-            color: #4CAF50;
-        }
+    /* THE TOGGLE BUTTON */
+    #theme-toggle {
+      background: none;
+      border: 2px solid var(--accent-green);
+      color: var(--accent-green);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
 
-        section {
-            padding: 60px 10%;
-        }
+    #theme-toggle:hover {
+      background: var(--accent-green);
+      color: white;
+    }
 
-        .about {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
+    header {
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      background: url("background image for website.png") center/cover no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
+    header h1 {
+      font-size: 3.5rem;
+      letter-spacing: 2px;
+      margin: 0;
+      animation: floatText 4s ease-in-out infinite;
+    }
 
-        .gallery img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 12px;
-            background-size: cover;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
+    @keyframes floatText {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
 
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        .video-container {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 ratio */
-    margin: 20px 0;
-}
-   /*download button style*/
-.download-btn {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 14px;
-    background: #29d47e;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: 0.3s;
-    opacity: 2px;
-}
+    section {
+      padding: 60px 10%;
+    }
 
-.download-btn:hover {
-    background: #79d115;
-}
+    .about, .contact-box {
+      background: var(--card-bg); /* Updated */
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
 
+    h2 {
+      color: var(--accent-green); /* Updated */
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+    }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-}
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: var(--accent-green); /* Updated */
+      margin: 20px 0;
+      border-radius: 5px;
+    }
 
-            .contact-box {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: auto;
-        }
+    .gallery img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-        footer {
-            background: #2f3e2f;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-    
-        /* Soft aesthetic color palette */
-        :root {
-            --primary-bg: #f3efe4;
-            --card-bg: #fffaf3;
-            --accent: #6b8e4e;
-            --accent-soft: #a3be8c;
-        }
+    .gallery img:hover {
+      transform: scale(1.07);
+    }
 
-        body {
-            background-color: var(--primary-bg);
-        }
+    .video-item {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+      transition: transform 0.3s;
+    }
 
-        nav {
-            background: var(--card-bg);
-        }
+    footer {
+      background: #1a241a; /* Darker footer for contrast */
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
 
-        nav a:hover {
-            color: var(--accent);
-        }
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+    }
 
-        header {
-            background-color: rgba(0, 0, 0, 0.35);
-        }
-
-        .about, .contact-box {
-            background: var(--card-bg);
-        }
-
-        h2 {
-            color: var(--accent);
-        }
-
-        /* Smooth fade-in animation */
-        .gallery img {
-            opacity: 0;
-            animation: fadeIn 1s ease-in forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Soft hover glow */
-        .gallery img:hover {
-            transform: scale(1.07);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
-        }
-            /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Add soft gradient overlay on header */
-        header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
-            z-index: 0;
-        }
-
-        header h1 {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Add handwritten aesthetic font for headings */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
-        h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-        }
-
-        /* Soft floating animation for header text */
-        @keyframes floatText {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        header h1 {
-            animation: floatText 4s ease-in-out infinite;
-        }
-
-        /* Aesthetic section dividers */
-        .divider {
-            width: 80px;
-            height: 3px;
-            background: var(--accent);
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .video-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .video-item {
-            width: 100%;
-            height: 200px;
-            /* object-fit: cover; */
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .video-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
-        }
-
-    </style>
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
 
-    <nav>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#gallery" class="nav-link">Gallery</a></li>
+      <li><a href="#videos" class="nav-link">Videos</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    
+    <button id="theme-toggle" title="Toggle Dark Mode">
+      <span id="theme-icon">☾</span>
+    </button>
+  </nav>
 
-    <header id="home">
-        <h1>Welcome to Our Mana_Cheedikada</h1>
-    </header>
+  <header id="home">
+    <h1>Welcome to Our Mana_Cheedikada</h1>
+  </header>
 
-    <section id="about">
-        <div class="about">
-            <h2>About Our Village</h2><div class="divider"></div>
-            <p>
-                Our village is a peaceful and naturally beautiful place surrounded by greenery,
-                fresh air, lakes, farms, and traditional culture. It is known for its warm-hearted
-                people, scenic views, and a simple lifestyle that brings peace to the soul.
-            </p>
-            
-        </div>
-    </section>
+  <section id="about">
+    <div class="about">
+      <h2>About Our Village</h2>
+      <div class="divider"></div>
+      <p>
+        Our village is a peaceful and naturally beautiful place surrounded by greenery,
+        fresh air, lakes, farms, and traditional culture.
+      </p>
+    </div>
+  </section>
 
-    <section id="gallery">
-        <h2>Gallery</h2><div class="divider"></div>
-        <div class="gallery">
-     <div class="gallery-item">
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="divider"></div>
+    <div class="gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
       <img src="cdk 1.webp" alt="Village Image">
-      <a href="cdk 1.webp" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 2.jpg" alt="Village Image">
-      <a href="cdk 2.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 3.jpg" alt="Village Image">
-      <a href="cdk 3.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 5.jpg" alt="Village Image">
-      <a href="cdk 5.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 6.jpg" alt="Village Image">
-      <a href="cdk 6.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 7.jpg" alt="Village Image">
-      <a href="cdk 7.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 8.jpg" alt="Village Image">
-      <a href="cdk 8.jpg" download class="download-btn">Download</a>
-    </div>
-    <div class="gallery-item">
       <img src="cdk 9.webp" alt="Village Image">
-      <a href="cdk 9.webp" download class="download-btn">Download</a>
-    </div><div class="gallery-item">
-      <img src="cdk 10.webp" alt="Village Image">
-      <a href="cdk 10.webp" download class="download-btn">Download</a>
     </div>
-    <div class="gallery-item">
-      <img src="cdk 11.webp" alt="Village Image">
-      <a href="cdk 11.webp" download class="download-btn">Download</a>
+  </section>
+
+  <section id="videos">
+    <h2>Village Videos</h2>
+    <div class="divider"></div>
+    <div class="video-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+      <video controls class="video-item"><source src="cdk video 1.mp4" type="video/mp4"></video>
+      <video controls class="video-item"><source src="cdk video 2.mp4" type="video/mp4"></video>
+      <video controls class="video-item"><source src="cdk video 3.mp4" type="video/mp4"></video>
+      <video controls class="video-item"><source src="cdk video 4.mp4" type="video/mp4"></video>
     </div>
-    <div class="gallery-item">
-      <img src="cdk 12.webp" alt="Village Image">
-      <a href="cdk 12.webp" download class="download-btn">Download</a>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <div class="divider"></div>
+    <div class="contact-box">
+      <p><strong>Address:</strong> Mana_Cheedikada Village, Andhra Pradesh</p>
+      <p><strong>Phone:</strong> +91 7075281019</p>
+      <p><strong>Email:</strong> jagadeeshbobbili66@gmail.com</p>
     </div>
-    <div class="gallery-item">
-      <img src="village image.jpg" alt="Village Image">
-      <a href="village image.jpg" download class="download-btn">Download</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Mana_Cheedikada • All Rights Reserved</p>
+    <div class="social-links" style="margin-top: 15px;">
+      <a href="https://www.instagram.com/mana__cheedikada/?hl=en" target="_blank" style="margin: 0 10px; text-decoration:none; color:white; font-weight:600;">Instagram</a>
+      <a href="https://www.youtube.com/@Manacheedikada" target="_blank" style="margin: 0 10px; text-decoration:none; color:white; font-weight:600;">YouTube</a>
     </div>
+  </footer>
 
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="Preview">
+  </div>
 
-            <!-- <img src="cdk 1.webp" alt="Farm Image 1">
-            <img src="cdk 2.jpg" alt="Village Cats 1">
-            <img src="cdk 3.jpg" alt="Village Cats 2">
-            <img src="village image.jpg" alt="village image">
-            <img src="cdk 5.jpg" alt="Farm Image 1">
-            <img src="cdk 6.jpg" alt="Village Cats 1">
-            <img src="cdk 7.jpg" alt="Village Cats 2">
-            <img src="cdk 8.jpg" alt="village image"> -->
-        </div>
-    </section>
-       <section class="videos" id="videos">
-    <h2 class="section-title">Village Videos</h2><div class="divider"></div>
+  <script>
+    // --- DARK MODE LOGIC ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
 
-    <div class="video-gallery">
-        <video controls class="video-item">
-            <source src="cdk video 1.mp4" type="video/mp4">
-        </video>
+    // Check for saved user preference
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+      themeIcon.textContent = '☀';
+    }
 
-        <video controls class="video-item">
-            <source src="cdk video 2.mp4" type="video/mp4">
-         </video>
-         <video controls class="video-item">
-            <source src="cdk video 3.mp4" type="video/mp4">
-        </video>
-            <!-- <video controls class="video-item">
-            <source src="cdk video 4.mp4" type="video/mp4">
-        </video>
-         <video controls class="video-item">
-            <source src="cdk vid 5.mp4" type="video/mp4">
-        </video> -->
-    </div>
-</section>
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      
+      if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = '☀';
+      } else {
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = '☾';
+      }
+    });
 
+    // --- YOUR EXISTING JS ---
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
 
-
-    <section id="contact">
-        <h2>Contact Us</h2><div class="divider"></div>
-        <div class="contact-box">
-            <p><strong>Address:</strong> Mana_Cheedikada Village, Anakapalli District, Andhra Pradesh</p>
-            <p><strong>Phone:</strong> +91 7075281019 +91 86881 22052</p>
-            <p><strong>Email:</strong> jagadeeshbobbili66@gmail.com</p>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2025 Mana_Cheedikada • All Rights Reserved</p>
-        <div class="social-links" style="margin-top: 15px;">
-        <a href="https://www.instagram.com/mana__cheedikada/?hl=en" target="_blank" style="margin: 0 10px; text-decoration:none; color:white; font-weight:600;">Instagram</a>
-        <!-- <a href="#" style="margin: 0 10px; text-decoration:none; color:white; font-weight:600;">Facebook</a> -->
-        <a href=https://www.youtube.com/@Manacheedikada target="_blank" style="margin: 0 10px; text-decoration:none; color:white; font-weight:600;">YouTube</a>
-    </div>
-    </footer>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+      });
+    });
+    lightbox.addEventListener('click', () => { lightbox.style.display = 'none'; });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') lightbox.style.display = 'none'; });
+  </script>
 
 </body>
 </html>
-
-
-
-
-
